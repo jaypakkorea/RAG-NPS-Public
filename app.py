@@ -1,5 +1,15 @@
+from pathlib import Path
 import streamlit as st
 
+# 업로드 경로 생성 함수
+def save_uploaded_file(uploaded_file):
+    upload_dir = Path("./uploads")
+    upload_dir.mkdir(parents=True, exist_ok=True)
+    file_path = upload_dir / uploaded_file.name
+    file_path.write_bytes(uploaded_file.getbuffer())
+    return str(file_path)
+
+# 사이드바
 def render_sidebar():
     with st.sidebar:
         uploaded_files = st.file_uploader(
@@ -27,7 +37,7 @@ def render_sidebar():
             st.session_state.messages = []
             st.rerun()
 
-
+# 채팅 내역
 def render_chat():
     st.title("NPS X RAG")
 
